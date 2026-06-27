@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Furavis AI — Your Pet's Health Companion</title>
+  <meta name="description" content="Furavis AI uses artificial intelligence to help pet owners monitor health, catch problems early, and make better care decisions. Coming soon to Google Play and App Store.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Furavis AI — Your Pet's Health Companion">
+  <meta property="og:description" content="Furavis AI uses artificial intelligence to help pet owners monitor health, catch problems early, and make better care decisions. Coming soon to Google Play and App Store.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://furavis.ai">
+  <meta property="og:site_name" content="Furavis AI">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Furavis AI — Your Pet's Health Companion">
+  <meta name="twitter:description" content="Furavis AI uses artificial intelligence to help pet owners monitor health, catch problems early, and make better care decisions.">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://furavis.ai">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+
+  <style>
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── Tokens ── */
+    :root {
+      --bg:        #FAFAF8;
+      --surface:   #FFFFFF;
+      --dark:      #1A1A2E;
+      --teal:      #006D6D;
+      --teal-dark: #005757;
+      --teal-lt:   #E8F5F5;
+      --accent:    #FF8C42;
+      --muted:     #6B7280;
+      --border:    #E5E7EB;
+
+      --body:    'DM Sans', system-ui, sans-serif;
+      --display: 'DM Serif Display', Georgia, serif;
+
+      --r-card: 16px;
+      --r-btn:  100px;
+      --r-sm:   8px;
+    }
+
+    /* ── Base ── */
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--body);
+      background: var(--bg);
+      color: var(--dark);
+      font-size: 17px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img { display: block; max-width: 100%; }
+    a { color: inherit; }
+
+    /* ── Layout ── */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 28px;
+    }
+
+    /* ── Shared typography ── */
+    .label {
+      display: inline-block;
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 14px;
+    }
+
+    .section-title {
+      font-family: var(--display);
+      font-size: clamp(30px, 4.2vw, 46px);
+      color: var(--dark);
+      line-height: 1.18;
+    }
+
+    /* ── Scroll animation ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .reveal.in { opacity: 1; transform: none; }
+    .reveal.delay-1 { transition-delay: 0.10s; }
+    .reveal.delay-2 { transition-delay: 0.20s; }
+    .reveal.delay-3 { transition-delay: 0.30s; }
+    .reveal.delay-4 { transition-delay: 0.40s; }
+    .reveal.delay-5 { transition-delay: 0.50s; }
+
+    /* ════════════════════════════════════
+       NAVIGATION
+    ════════════════════════════════════ */
+    #nav {
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    #nav.scrolled {
+      border-color: var(--border);
+      box-shadow: 0 2px 24px rgba(0,0,0,0.05);
+    }
+
+    .nav-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 70px;
+    }
+
+    .nav-logo {
+      font-family: var(--display);
+      font-size: 21px;
+      color: var(--dark);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      letter-spacing: -0.01em;
+    }
+    .nav-logo .paw { color: var(--teal); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 14.5px;
+      font-weight: 500;
+      color: var(--dark);
+      text-decoration: none;
+      transition: color 0.18s;
+    }
+    .nav-links a:hover { color: var(--teal); }
+    .nav-links .pill {
+      background: var(--teal);
+      color: #fff !important;
+      padding: 8px 20px;
+      border-radius: var(--r-btn);
+      font-weight: 600;
+      font-size: 14px;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .nav-links .pill:hover { background: var(--teal-dark); transform: translateY(-1px); }
+
+    /* Hamburger */
+    .burger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+      width: 36px;
+      height: 36px;
+    }
+    .burger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--dark);
+      border-radius: 2px;
+      transition: transform 0.28s ease, opacity 0.28s ease;
+    }
+    .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .burger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Mobile drawer */
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      background: #fff;
+      border-top: 1px solid var(--border);
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      padding: 15px 28px;
+      font-size: 15.5px;
+      font-weight: 500;
+      color: var(--dark);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      transition: color 0.18s, background 0.18s;
+    }
+    .mobile-menu a:hover { color: var(--teal); background: var(--teal-lt); }
+    .mobile-menu a:last-child { color: var(--teal); font-weight: 700; border-bottom: none; }
+
+    /* ════════════════════════════════════
+       HERO
+    ════════════════════════════════════ */
+    .hero {
+      text-align: center;
+      padding: 108px 28px 128px;
+      background: radial-gradient(ellipse 70% 50% at 50% 0%, var(--teal-lt) 0%, var(--bg) 70%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: var(--teal-lt);
+      color: var(--teal);
+      border: 1px solid rgba(0,109,109,0.22);
+      border-radius: var(--r-btn);
+      padding: 6px 16px;
+      font-size: 12.5px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      margin-bottom: 30px;
+    }
+    .hero-badge::before { content: '✦'; font-size: 10px; }
+
+    .hero-h1 {
+      font-family: var(--display);
+      font-size: clamp(40px, 6.5vw, 76px);
+      color: var(--dark);
+      line-height: 1.08;
+      max-width: 820px;
+      margin: 0 auto 26px;
+      letter-spacing: -0.015em;
+    }
+
+    .hero-sub {
+      font-size: clamp(16.5px, 1.9vw, 20px);
+      color: var(--muted);
+      max-width: 570px;
+      margin: 0 auto 52px;
+      line-height: 1.68;
+    }
+
+    /* Store badges */
+    .badges {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 22px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      border: 2px solid var(--teal);
+      color: var(--teal);
+      background: #fff;
+      border-radius: var(--r-card);
+      padding: 13px 24px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+      cursor: default;
+    }
+    .badge:hover {
+      background: var(--teal-lt);
+      box-shadow: 0 6px 20px rgba(0,109,109,0.14);
+      transform: translateY(-2px);
+    }
+    .badge-icon {
+      font-size: 22px;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    .badge-copy { text-align: left; }
+    .badge-copy .eyebrow {
+      display: block;
+      font-size: 10px;
+      font-weight: 500;
+      opacity: 0.65;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      line-height: 1;
+      margin-bottom: 3px;
+    }
+    .badge-copy .store-name {
+      display: block;
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    /* White variant for CTA section */
+    .badge.inv {
+      border-color: rgba(255,255,255,0.55);
+      color: #fff;
+      background: rgba(255,255,255,0.1);
+    }
+    .badge.inv:hover {
+      background: rgba(255,255,255,0.2);
+      box-shadow: 0 6px 24px rgba(0,0,0,0.18);
+    }
+
+    .hero-fine {
+      font-size: 13.5px;
+      color: var(--muted);
+    }
+    .hero-fine .dot { margin: 0 8px; opacity: 0.4; }
+
+    /* ════════════════════════════════════
+       FEATURES
+    ════════════════════════════════════ */
+    .features {
+      padding: 108px 0;
+      background: var(--bg);
+    }
+    .features-hd {
+      text-align: center;
+      margin-bottom: 68px;
+    }
+    .features-hd .section-title { margin-top: 8px; }
+
+    .feat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .feat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-card);
+      padding: 34px 30px 30px;
+      transition: box-shadow 0.26s ease, transform 0.26s ease;
+    }
+    .feat-card:hover {
+      box-shadow: 0 10px 36px rgba(0,0,0,0.09);
+      transform: translateY(-4px);
+    }
+    .feat-emoji {
+      font-size: 38px;
+      line-height: 1;
+      margin-bottom: 18px;
+    }
+    .feat-name {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 10px;
+    }
+    .feat-desc {
+      font-size: 14.5px;
+      color: var(--muted);
+      line-height: 1.68;
+    }
+
+    /* ════════════════════════════════════
+       HOW IT WORKS
+    ════════════════════════════════════ */
+    .how {
+      padding: 108px 0;
+      background: var(--surface);
+    }
+    .how-hd {
+      text-align: center;
+      margin-bottom: 80px;
+    }
+    .how-hd .section-title { margin-top: 8px; }
+
+    .steps {
+      display: grid;
+      grid-template-columns: 1fr 60px 1fr 60px 1fr;
+      align-items: start;
+    }
+
+    .step { text-align: center; padding: 0 8px; }
+
+    .step-num {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: rgba(255,140,66,0.11);
+      color: var(--accent);
+      font-family: var(--display);
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 22px;
+      border: 2px solid rgba(255,140,66,0.2);
+    }
+
+    .step-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 10px;
+    }
+    .step-desc {
+      font-size: 14.5px;
+      color: var(--muted);
+      line-height: 1.68;
+    }
+
+    .step-line {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-top: 30px;
+    }
+    .step-line::after {
+      content: '';
+      display: block;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(to right, var(--border), rgba(0,109,109,0.3), var(--border));
+      border-radius: 2px;
+    }
+
+    /* ════════════════════════════════════
+       FOR EVERY PET
+    ════════════════════════════════════ */
+    .every-pet {
+      padding: 108px 0;
+      background: var(--teal-lt);
+    }
+    .every-pet-hd {
+      text-align: center;
+      margin-bottom: 14px;
+    }
+    .every-pet-hd .section-title { margin-top: 8px; }
+
+    .pet-desc {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto 56px;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .species-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
+      max-width: 820px;
+      margin: 0 auto;
+    }
+
+    .species {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 7px;
+      background: #fff;
+      border: 1px solid rgba(0,109,109,0.13);
+      border-radius: 14px;
+      padding: 18px 16px 14px;
+      min-width: 88px;
+      transition: transform 0.22s ease, box-shadow 0.22s ease;
+    }
+    .species:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0,109,109,0.13);
+    }
+    .species-em { font-size: 34px; line-height: 1; }
+    .species-nm {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--dark);
+      letter-spacing: 0.01em;
+    }
+
+    /* ════════════════════════════════════
+       TRUST
+    ════════════════════════════════════ */
+    .trust {
+      padding: 108px 0;
+      background: var(--bg);
+    }
+    .trust-hd {
+      text-align: center;
+      margin-bottom: 58px;
+    }
+    .trust-hd .section-title { margin-top: 8px; }
+
+    .trust-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .trust-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-card);
+      padding: 40px 32px 36px;
+      text-align: center;
+    }
+
+    .trust-big {
+      font-family: var(--display);
+      font-size: 44px;
+      color: var(--teal);
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+    .trust-name {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 8px;
+    }
+    .trust-desc {
+      font-size: 14.5px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ════════════════════════════════════
+       DOWNLOAD CTA
+    ════════════════════════════════════ */
+    .cta {
+      background: var(--teal);
+      padding: 112px 28px 108px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 60% at 50% 100%, rgba(0,0,0,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cta .label { color: rgba(255,255,255,0.65); }
+    .cta-h2 {
+      font-family: var(--display);
+      font-size: clamp(32px, 4.5vw, 56px);
+      color: #fff;
+      line-height: 1.12;
+      margin: 6px auto 22px;
+      max-width: 640px;
+    }
+    .cta-sub {
+      font-size: 17.5px;
+      color: rgba(255,255,255,0.78);
+      max-width: 480px;
+      margin: 0 auto 52px;
+      line-height: 1.65;
+    }
+    .cta-fine {
+      margin-top: 30px;
+      font-size: 13.5px;
+      color: rgba(255,255,255,0.55);
+    }
+    .cta-fine a {
+      color: rgba(255,255,255,0.72);
+      text-decoration: underline;
+      transition: color 0.18s;
+    }
+    .cta-fine a:hover { color: #fff; }
+
+    /* ════════════════════════════════════
+       FOOTER
+    ════════════════════════════════════ */
+    footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 38px 0;
+    }
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 28px;
+    }
+
+    .footer-brand { flex-shrink: 0; }
+    .footer-logo {
+      font-family: var(--display);
+      font-size: 19px;
+      color: var(--dark);
+      text-decoration: none;
+      display: block;
+      line-height: 1.2;
+    }
+    .footer-by {
+      font-size: 12.5px;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+
+    .footer-nav {
+      display: flex;
+      gap: 26px;
+      list-style: none;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .footer-nav a {
+      font-size: 14px;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.18s;
+    }
+    .footer-nav a:hover { color: var(--teal); }
+
+    .footer-right {
+      font-size: 13px;
+      color: var(--muted);
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    /* ════════════════════════════════════
+       RESPONSIVE
+    ════════════════════════════════════ */
+    @media (max-width: 960px) {
+      .feat-grid { grid-template-columns: repeat(2, 1fr); }
+      .trust-grid { grid-template-columns: repeat(2, 1fr); }
+
+      .steps {
+        grid-template-columns: 1fr;
+        gap: 48px;
+        max-width: 480px;
+        margin: 0 auto;
+      }
+      .step-line { display: none; }
+      .step { text-align: left; display: grid; grid-template-columns: 60px 1fr; gap: 0 20px; }
+      .step-num { margin: 0; }
+      .step-content { padding-top: 4px; }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .burger { display: flex; }
+
+      .hero { padding: 84px 28px 100px; }
+      .feat-grid { grid-template-columns: 1fr; }
+      .trust-grid { grid-template-columns: 1fr; }
+
+      .footer-inner {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+      }
+      .footer-brand { text-align: center; }
+      .footer-right { text-align: center; }
+    }
+
+    @media (max-width: 520px) {
+      .badges { flex-direction: column; align-items: center; }
+      .badge { width: 100%; max-width: 290px; justify-content: center; }
+
+      .step { grid-template-columns: 1fr; text-align: center; }
+      .step-num { margin: 0 auto 18px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══════════ NAV ══════════ -->
+  <nav id="nav">
+    <div class="container">
+      <div class="nav-wrap">
+        <a href="#" class="nav-logo">
+          <span class="paw">🐾</span> Furavis AI
+        </a>
+        <ul class="nav-links">
+          <li><a href="#features">Features</a></li>
+          <li><a href="#how-it-works">How It Works</a></li>
+          <li><a href="#for-every-pet">For Your Pet</a></li>
+          <li><a href="#download" class="pill">Download</a></li>
+        </ul>
+        <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+    <div class="mobile-menu" id="mobile-menu" role="navigation">
+      <a href="#features"     class="mob-link">Features</a>
+      <a href="#how-it-works" class="mob-link">How It Works</a>
+      <a href="#for-every-pet" class="mob-link">For Your Pet</a>
+      <a href="#download"     class="mob-link">Download</a>
+    </div>
+  </nav>
+
+  <!-- ══════════ HERO ══════════ -->
+  <section class="hero">
+    <div class="container">
+      <div class="reveal">
+        <div class="hero-badge">AI-Powered Pet Health</div>
+      </div>
+      <div class="reveal delay-1">
+        <h1 class="hero-h1">Your pet can't tell you<br>when something's wrong.</h1>
+      </div>
+      <div class="reveal delay-2">
+        <p class="hero-sub">Furavis AI learns your pet's health patterns, flags concerns early, and gives you expert guidance — so you can be the owner they deserve.</p>
+      </div>
+      <div class="reveal delay-3">
+        <div class="badges">
+          <a class="badge" href="#download" role="button">
+            <span class="badge-icon">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+                <path d="M4 3.5L18 11L4 18.5V3.5Z" fill="currentColor"/>
+              </svg>
+            </span>
+            <span class="badge-copy">
+              <span class="eyebrow">Coming to</span>
+              <span class="store-name">Google Play</span>
+            </span>
+          </a>
+          <a class="badge" href="#download" role="button">
+            <span class="badge-icon">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+                <path d="M16.24 11.56c-.02-2.46 2.01-3.65 2.1-3.71-1.14-1.67-2.92-1.9-3.56-1.93-1.52-.15-2.97.9-3.74.9-.77 0-1.96-.88-3.23-.86-1.66.02-3.2.97-4.06 2.46-1.73 3-.45 7.46 1.25 9.9.83 1.2 1.82 2.54 3.12 2.49 1.25-.05 1.72-.81 3.23-.81 1.5 0 1.93.81 3.25.79 1.35-.03 2.2-1.22 3.02-2.43.97-1.39 1.36-2.76 1.38-2.83-.03-.01-2.63-1.01-2.76-3.97zM13.85 4.3c.68-.83 1.14-1.98 1.01-3.13-.98.04-2.19.65-2.9 1.47-.63.72-1.18 1.9-1.04 3.02 1.09.08 2.22-.56 2.93-1.36z" fill="currentColor"/>
+              </svg>
+            </span>
+            <span class="badge-copy">
+              <span class="eyebrow">Coming to</span>
+              <span class="store-name">App Store</span>
+            </span>
+          </a>
+        </div>
+        <p class="hero-fine">Free to download<span class="dot">·</span>Premium features available</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ FEATURES ══════════ -->
+  <section class="features" id="features">
+    <div class="container">
+      <div class="features-hd reveal">
+        <div class="label">What Furavis AI Does</div>
+        <h2 class="section-title">Everything your pet's health needs,<br>in one place.</h2>
+      </div>
+      <div class="feat-grid">
+        <div class="feat-card reveal">
+          <div class="feat-emoji">🩺</div>
+          <div class="feat-name">AI Symptom Analysis</div>
+          <p class="feat-desc">Describe what you're seeing and get instant AI-powered guidance. Know when to monitor at home and when to call the vet.</p>
+        </div>
+        <div class="feat-card reveal delay-1">
+          <div class="feat-emoji">📊</div>
+          <div class="feat-name">Daily Health Tracking</div>
+          <p class="feat-desc">Log appetite, energy, mood, and more every day. Spot trends before they become problems.</p>
+        </div>
+        <div class="feat-card reveal delay-2">
+          <div class="feat-emoji">💬</div>
+          <div class="feat-name">Ask Sage</div>
+          <p class="feat-desc">Meet Sage, your AI pet health assistant. Ask anything — from medication questions to behavior concerns — any time of day.</p>
+        </div>
+        <div class="feat-card reveal delay-3">
+          <div class="feat-emoji">📸</div>
+          <div class="feat-name">Condition Tracker</div>
+          <p class="feat-desc">Photograph wounds, rashes, or lumps over time. Sage compares photos and tells you if things are improving.</p>
+        </div>
+        <div class="feat-card reveal delay-4">
+          <div class="feat-emoji">💊</div>
+          <div class="feat-name">Medication Checker</div>
+          <p class="feat-desc">Check for dangerous drug interactions before giving your pet any medication. Safety first.</p>
+        </div>
+        <div class="feat-card reveal delay-5">
+          <div class="feat-emoji">🌿</div>
+          <div class="feat-name">Plant &amp; Food Safety</div>
+          <p class="feat-desc">Scan plants or food items to instantly know if they're safe for your specific pet.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ HOW IT WORKS ══════════ -->
+  <section class="how" id="how-it-works">
+    <div class="container">
+      <div class="how-hd reveal">
+        <div class="label">How It Works</div>
+        <h2 class="section-title">Set up in minutes.<br>Start helping your pet today.</h2>
+      </div>
+      <div class="steps reveal delay-1">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title">Create your pet's profile</div>
+            <p class="step-desc">Add your pet's species, breed, age, and health history. The more Sage knows, the better the guidance.</p>
+          </div>
+        </div>
+        <div class="step-line" aria-hidden="true"></div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title">Start tracking daily</div>
+            <p class="step-desc">Log check-ins, symptoms, medications, and vet visits. Everything in one place, always up to date.</p>
+          </div>
+        </div>
+        <div class="step-line" aria-hidden="true"></div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title">Get AI-powered insights</div>
+            <p class="step-desc">Sage analyzes patterns, flags concerns, and gives you personalized guidance based on your pet's unique health history.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ FOR EVERY PET ══════════ -->
+  <section class="every-pet" id="for-every-pet">
+    <div class="container">
+      <div class="every-pet-hd reveal">
+        <div class="label">For Every Pet</div>
+        <h2 class="section-title">Whatever pet you love,<br>Furavis AI has them covered.</h2>
+      </div>
+      <p class="pet-desc reveal delay-1">From dogs and cats to horses, birds, reptiles, and exotic pets — Furavis AI understands the unique health needs of over 12 species. Sage gives species-specific advice, not generic answers.</p>
+      <div class="species-grid reveal delay-2">
+        <div class="species"><span class="species-em">🐕</span><span class="species-nm">Dog</span></div>
+        <div class="species"><span class="species-em">🐈</span><span class="species-nm">Cat</span></div>
+        <div class="species"><span class="species-em">🐎</span><span class="species-nm">Horse</span></div>
+        <div class="species"><span class="species-em">🐇</span><span class="species-nm">Rabbit</span></div>
+        <div class="species"><span class="species-em">🦜</span><span class="species-nm">Bird</span></div>
+        <div class="species"><span class="species-em">🐍</span><span class="species-nm">Snake</span></div>
+        <div class="species"><span class="species-em">🦎</span><span class="species-nm">Lizard</span></div>
+        <div class="species"><span class="species-em">🐠</span><span class="species-nm">Fish</span></div>
+        <div class="species"><span class="species-em">🐢</span><span class="species-nm">Turtle</span></div>
+        <div class="species"><span class="species-em">🐹</span><span class="species-nm">Small Animal</span></div>
+        <div class="species"><span class="species-em">🦡</span><span class="species-nm">Ferret</span></div>
+        <div class="species"><span class="species-em">🐾</span><span class="species-nm">Other</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ TRUST ══════════ -->
+  <section class="trust">
+    <div class="container">
+      <div class="trust-hd reveal">
+        <div class="label">Built With Care</div>
+        <h2 class="section-title">Technology you can trust<br>for the ones you love.</h2>
+      </div>
+      <div class="trust-grid">
+        <div class="trust-card reveal">
+          <div class="trust-big">12+</div>
+          <div class="trust-name">Species Supported</div>
+          <p class="trust-desc">Tailored health guidance for dogs, cats, horses, and more</p>
+        </div>
+        <div class="trust-card reveal delay-1">
+          <div class="trust-big">AI</div>
+          <div class="trust-name">Powered by Claude</div>
+          <p class="trust-desc">Built on Claude, Anthropic's industry-leading AI model</p>
+        </div>
+        <div class="trust-card reveal delay-2">
+          <div class="trust-big" style="font-size:38px;">🔒</div>
+          <div class="trust-name">Privacy First</div>
+          <p class="trust-desc">Your pet's health data is encrypted and never sold</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DOWNLOAD CTA ══════════ -->
+  <section class="cta" id="download">
+    <div class="container">
+      <div class="reveal">
+        <div class="label">Get the App</div>
+        <h2 class="cta-h2">Give your pet the care<br>they deserve.</h2>
+        <p class="cta-sub">Furavis AI is coming soon to Google Play and the App Store. Be ready when it launches.</p>
+        <div class="badges">
+          <a class="badge inv" href="#" role="button">
+            <span class="badge-icon">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+                <path d="M4 3.5L18 11L4 18.5V3.5Z" fill="currentColor"/>
+              </svg>
+            </span>
+            <span class="badge-copy">
+              <span class="eyebrow">Coming to</span>
+              <span class="store-name">Google Play</span>
+            </span>
+          </a>
+          <a class="badge inv" href="#" role="button">
+            <span class="badge-icon">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+                <path d="M16.24 11.56c-.02-2.46 2.01-3.65 2.1-3.71-1.14-1.67-2.92-1.9-3.56-1.93-1.52-.15-2.97.9-3.74.9-.77 0-1.96-.88-3.23-.86-1.66.02-3.2.97-4.06 2.46-1.73 3-.45 7.46 1.25 9.9.83 1.2 1.82 2.54 3.12 2.49 1.25-.05 1.72-.81 3.23-.81 1.5 0 1.93.81 3.25.79 1.35-.03 2.2-1.22 3.02-2.43.97-1.39 1.36-2.76 1.38-2.83-.03-.01-2.63-1.01-2.76-3.97zM13.85 4.3c.68-.83 1.14-1.98 1.01-3.13-.98.04-2.19.65-2.9 1.47-.63.72-1.18 1.9-1.04 3.02 1.09.08 2.22-.56 2.93-1.36z" fill="currentColor"/>
+              </svg>
+            </span>
+            <span class="badge-copy">
+              <span class="eyebrow">Coming to</span>
+              <span class="store-name">App Store</span>
+            </span>
+          </a>
+        </div>
+        <p class="cta-fine">
+          By downloading, you agree to our
+          <a href="https://www.zentryxinteractive.io/privacy-policy" target="_blank" rel="noopener">Privacy Policy</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ FOOTER ══════════ -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <a href="#" class="footer-logo">Furavis AI 🐾</a>
+          <p class="footer-by">by Zentryx Interactive LLC</p>
+        </div>
+        <ul class="footer-nav">
+          <li><a href="#features">Features</a></li>
+          <li><a href="#how-it-works">How It Works</a></li>
+          <li><a href="#for-every-pet">For Your Pet</a></li>
+          <li><a href="https://www.zentryxinteractive.io/privacy-policy" target="_blank" rel="noopener">Privacy Policy</a></li>
+        </ul>
+        <div class="footer-right">Vermont, USA &nbsp;·&nbsp; © 2026</div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Nav scroll shadow
+    const nav = document.getElementById('nav');
+    const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 12);
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    // Hamburger / mobile menu
+    const burger = document.getElementById('burger');
+    const menu   = document.getElementById('mobile-menu');
+
+    burger.addEventListener('click', () => {
+      const open = menu.classList.toggle('open');
+      burger.classList.toggle('open', open);
+      burger.setAttribute('aria-expanded', String(open));
+    });
+
+    document.querySelectorAll('.mob-link').forEach(a => {
+      a.addEventListener('click', () => {
+        menu.classList.remove('open');
+        burger.classList.remove('open');
+        burger.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    // Scroll-reveal via IntersectionObserver
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -36px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  </script>
+</body>
+</html>

@@ -377,6 +377,105 @@
       line-height: 1.68;
     }
 
+    /* ── Flagship hero card ── */
+    .feat-hero {
+      grid-column: 1 / -1;
+      background: var(--teal-lt);
+      border: 1.5px solid rgba(0,109,109,0.22);
+      border-radius: var(--r-card);
+      padding: 40px 44px;
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      transition: box-shadow 0.26s ease, transform 0.26s ease;
+    }
+    .feat-hero:hover {
+      box-shadow: 0 12px 40px rgba(0,109,109,0.13);
+      transform: translateY(-3px);
+    }
+    .feat-hero .feat-emoji {
+      font-size: 62px;
+      margin-bottom: 0;
+      flex-shrink: 0;
+    }
+    .feat-hero .feat-name { font-size: 22px; margin-bottom: 10px; }
+    .feat-hero .feat-desc { font-size: 16px; max-width: 540px; }
+
+    .feat-flagship-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--teal);
+      color: #fff;
+      border-radius: var(--r-btn);
+      padding: 4px 12px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    /* Center the lone last card when it's alone in its row */
+    .feat-grid .feat-card:last-child:nth-child(3n+1) {
+      grid-column: 2;
+    }
+
+    /* ── Hero flagship chip ── */
+    .hero-feature {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 14px;
+      color: var(--dark);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-btn);
+      padding: 8px 20px;
+      margin-bottom: 40px;
+    }
+    .hero-feature strong { color: var(--teal); font-weight: 700; }
+
+    /* ── And so much more strip ── */
+    .more {
+      padding: 0 0 108px;
+      background: var(--bg);
+    }
+    .more-inner {
+      border: 1px solid var(--border);
+      border-radius: var(--r-card);
+      background: var(--surface);
+      padding: 32px 36px;
+      display: flex;
+      align-items: flex-start;
+      gap: 28px;
+    }
+    .more-lbl {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--dark);
+      white-space: nowrap;
+      padding-top: 6px;
+      flex-shrink: 0;
+    }
+    .more-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+    }
+    .more-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--r-sm);
+      padding: 6px 13px;
+      font-size: 13.5px;
+      color: var(--dark);
+    }
+    .more-chip .mc-icon { font-size: 14px; }
+
     /* ════════════════════════════════════
        HOW IT WORKS
     ════════════════════════════════════ */
@@ -509,7 +608,7 @@
 
     .trust-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 22px;
     }
 
@@ -658,6 +757,14 @@
       .feat-grid { grid-template-columns: repeat(2, 1fr); }
       .trust-grid { grid-template-columns: repeat(2, 1fr); }
 
+      /* Disable lone-card centering on 2-col grid */
+      .feat-grid .feat-card:last-child:nth-child(3n+1) { grid-column: auto; }
+
+      .feat-hero { flex-direction: column; gap: 20px; padding: 32px 28px; }
+      .feat-hero .feat-emoji { font-size: 48px; }
+
+      .more-inner { flex-direction: column; gap: 18px; }
+
       .steps {
         grid-template-columns: 1fr;
         gap: 48px;
@@ -676,7 +783,7 @@
 
       .hero { padding: 84px 28px 100px; }
       .feat-grid { grid-template-columns: 1fr; }
-      .trust-grid { grid-template-columns: 1fr; }
+      .trust-grid { grid-template-columns: repeat(2, 1fr); }
 
       .footer-inner {
         flex-direction: column;
@@ -690,6 +797,8 @@
     @media (max-width: 520px) {
       .badges { flex-direction: column; align-items: center; }
       .badge { width: 100%; max-width: 290px; justify-content: center; }
+
+      .trust-grid { grid-template-columns: 1fr; }
 
       .step { grid-template-columns: 1fr; text-align: center; }
       .step-num { margin: 0 auto 18px; }
@@ -735,6 +844,10 @@
       </div>
       <div class="reveal delay-2">
         <p class="hero-sub">Furavis AI learns your pet's health patterns, flags concerns early, and gives you expert guidance — so you can be the owner they deserve.</p>
+        <div class="hero-feature">
+          <span>🩺</span>
+          <span>Powered by the <strong>AI Symptom Scanner</strong> — describe what you see, know when to act.</span>
+        </div>
       </div>
       <div class="reveal delay-3">
         <div class="badges">
@@ -774,35 +887,70 @@
         <h2 class="section-title">Everything your pet's health needs,<br>in one place.</h2>
       </div>
       <div class="feat-grid">
-        <div class="feat-card reveal">
+
+        <!-- Flagship: full-width hero card -->
+        <div class="feat-hero reveal">
           <div class="feat-emoji">🩺</div>
-          <div class="feat-name">AI Symptom Analysis</div>
-          <p class="feat-desc">Describe what you're seeing and get instant AI-powered guidance. Know when to monitor at home and when to call the vet.</p>
+          <div>
+            <div class="feat-flagship-badge">✦ Flagship Feature</div>
+            <div class="feat-name">AI Symptom Scanner</div>
+            <p class="feat-desc">Describe what you're seeing — lethargy, limping, changes in appetite — and get instant AI-powered guidance. Sage tells you whether to monitor at home, adjust care, or head to the vet. The fastest way to know if something is wrong.</p>
+          </div>
         </div>
-        <div class="feat-card reveal delay-1">
-          <div class="feat-emoji">📊</div>
-          <div class="feat-name">Daily Health Tracking</div>
-          <p class="feat-desc">Log appetite, energy, mood, and more every day. Spot trends before they become problems.</p>
-        </div>
-        <div class="feat-card reveal delay-2">
+
+        <!-- Supporting features: 7 cards in 3-col grid -->
+        <div class="feat-card reveal">
           <div class="feat-emoji">💬</div>
           <div class="feat-name">Ask Sage</div>
           <p class="feat-desc">Meet Sage, your AI pet health assistant. Ask anything — from medication questions to behavior concerns — any time of day.</p>
         </div>
-        <div class="feat-card reveal delay-3">
-          <div class="feat-emoji">📸</div>
-          <div class="feat-name">Condition Tracker</div>
-          <p class="feat-desc">Photograph wounds, rashes, or lumps over time. Sage compares photos and tells you if things are improving.</p>
+        <div class="feat-card reveal delay-1">
+          <div class="feat-emoji">📷</div>
+          <div class="feat-name">Scan Your Pet</div>
+          <p class="feat-desc">Point your camera at your pet for AI breed identification and age estimation. Instant insights from a single photo — no guesswork needed.</p>
         </div>
-        <div class="feat-card reveal delay-4">
-          <div class="feat-emoji">💊</div>
-          <div class="feat-name">Medication Checker</div>
-          <p class="feat-desc">Check for dangerous drug interactions before giving your pet any medication. Safety first.</p>
-        </div>
-        <div class="feat-card reveal delay-5">
+        <div class="feat-card reveal delay-2">
           <div class="feat-emoji">🌿</div>
           <div class="feat-name">Plant &amp; Food Safety</div>
-          <p class="feat-desc">Scan plants or food items to instantly know if they're safe for your specific pet.</p>
+          <p class="feat-desc">Scan plants or food items to instantly know if they're safe for your specific pet. Protect them from hidden household hazards.</p>
+        </div>
+        <div class="feat-card reveal delay-3">
+          <div class="feat-emoji">💊</div>
+          <div class="feat-name">Medication Checker</div>
+          <p class="feat-desc">Check for dangerous drug interactions before giving your pet any medication. Safety first, always.</p>
+        </div>
+        <div class="feat-card reveal delay-4">
+          <div class="feat-emoji">📊</div>
+          <div class="feat-name">Health Tracking &amp; Health Score</div>
+          <p class="feat-desc">Log appetite, energy, mood, and more every day. An at-a-glance health score surfaces trends before they become problems.</p>
+        </div>
+        <div class="feat-card reveal delay-5">
+          <div class="feat-emoji">🍽️</div>
+          <div class="feat-name">Nutrition &amp; AI Recipes</div>
+          <p class="feat-desc">Personalized nutrition guidance, weight goals, and AI-generated recipes tailored to your pet's needs and dietary restrictions.</p>
+        </div>
+        <div class="feat-card reveal">
+          <div class="feat-emoji">📸</div>
+          <div class="feat-name">Condition Tracker</div>
+          <p class="feat-desc">Photograph wounds, rashes, or lumps over time. Sage compares photos and tells you if things are improving or need attention.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ AND SO MUCH MORE ══════════ -->
+  <section class="more">
+    <div class="container">
+      <div class="more-inner reveal">
+        <div class="more-lbl">And so much more&nbsp;→</div>
+        <div class="more-items">
+          <span class="more-chip"><span class="mc-icon">📋</span> Vet Visit Reports</span>
+          <span class="more-chip"><span class="mc-icon">🔔</span> Care &amp; Vaccination Reminders</span>
+          <span class="more-chip"><span class="mc-icon">👨‍👩‍👧</span> Family Sharing</span>
+          <span class="more-chip"><span class="mc-icon">📖</span> Memory Book</span>
+          <span class="more-chip"><span class="mc-icon">📍</span> Local Pet Events</span>
+          <span class="more-chip"><span class="mc-icon">🧬</span> DNA &amp; Genetic Health Import</span>
         </div>
       </div>
     </div>
@@ -887,6 +1035,11 @@
           <p class="trust-desc">Built on Claude, Anthropic's industry-leading AI model</p>
         </div>
         <div class="trust-card reveal delay-2">
+          <div class="trust-big" style="font-size:38px;">🩺</div>
+          <div class="trust-name">Veterinary Input</div>
+          <p class="trust-desc">Built with input from a licensed veterinarian — guidance shaped by real clinical insight</p>
+        </div>
+        <div class="trust-card reveal delay-3">
           <div class="trust-big" style="font-size:38px;">🔒</div>
           <div class="trust-name">Privacy First</div>
           <p class="trust-desc">Your pet's health data is encrypted and never sold</p>

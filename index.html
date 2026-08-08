@@ -1347,17 +1347,16 @@
        buttons become tappable links, labels flip from "Coming to"
        to live wording, and the "Launching soon" notes disappear.
        ════════════════════════════════════════════════════════════ */
-    const GOOGLE_PLAY_URL = '';  // ← paste the Google Play URL between these quotes at launch
+    const GOOGLE_PLAY_URL = 'https://play.google.com/store/apps/details?id=com.zentryxinteractive.furavisai';
     const APP_STORE_URL   = '';  // ← paste the App Store URL between these quotes at launch
 
     const STORE_CONFIG = {
-      play:     { url: GOOGLE_PLAY_URL, liveEyebrow: 'Get it on' },
-      appstore: { url: APP_STORE_URL,   liveEyebrow: 'Download on the' },
+      play:     { url: GOOGLE_PLAY_URL, name: 'Google Play', liveEyebrow: 'Get it on' },
+      appstore: { url: APP_STORE_URL,   name: 'App Store',   liveEyebrow: 'Download on the' },
     };
-    let anyLive = false;
+    const pendingStores = [];
     Object.entries(STORE_CONFIG).forEach(([store, cfg]) => {
-      if (!cfg.url) return;
-      anyLive = true;
+      if (!cfg.url) { pendingStores.push(cfg.name); return; }
       document.querySelectorAll('.badge[data-store="' + store + '"]').forEach(btn => {
         btn.href = cfg.url;
         btn.target = '_blank';
@@ -1367,7 +1366,14 @@
         btn.querySelector('.eyebrow').textContent = cfg.liveEyebrow;
       });
     });
-    if (anyLive) document.querySelectorAll('.soon-note').forEach(n => { n.style.display = 'none'; });
+    // Soon-notes: hide when everything is live; name only the pending store(s) in a mixed state
+    document.querySelectorAll('.soon-note').forEach(n => {
+      if (pendingStores.length === 0) {
+        n.style.display = 'none';
+      } else if (pendingStores.length < Object.keys(STORE_CONFIG).length) {
+        n.textContent = pendingStores.join(' & ') + ' coming soon';
+      }
+    });
 
     // Plausible custom events: store button clicks (tracks intent pre-launch too)
     window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
